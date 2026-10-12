@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  browserclaw:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: browserclaw
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - HEADLESS=true
+    restart: unless-stopped

@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cyberpunk dark theme variables */
+:root {
+  --bg: #0a0f1d;
+  --card: #121a29;
+  --border: #1e293b;
+  --fg: #e8edf5;
+  --muted: #64748b;
+  --neon-cyan: #00f0ff;
+  --neon-pink: #ff007f;
+  --neon-green: #00ff66;
+  --neon-yellow: #ffcc00;
+}
+
+/* Background gradient */
+body {
+  background: linear-gradient(180deg, #0a0f1d 0%, #121a29 100%);
+  min-height: 100vh;
+}
+
+/* Scanline effect */
+.scanline::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 240, 255, 0.03) 3px,
+    rgba(0, 240, 255, 0.03) 5px
+  );
+  z-index: 1000;
+}
+
+/* Glassmorphism */
+.glass-card {
+  background: rgba(18, 26, 41, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+}
+
+/* Neon text */
+.neon-text {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+
+.neon-text-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+}
+
+.neon-text-green {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+}
+
+/* Status badge styles */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--neon-cyan);
+}
+
+.status-running {
+  background: rgba(0, 255, 102, 0.15);
+  color: var(--neon-green);
+}
+
+.status-completed {
+  background: rgba(0, 150, 255, 0.15);
+  color: var(--neon-cyan);
+}
+
+.status-failed {
+  background: rgba(255, 0, 127, 0.15);
+  color: var(--neon-pink);
+}
+
+.status-paused {
+  background: rgba(255, 200, 0, 0.15);
+  color: var(--neon-yellow);
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* WebSocket connection indicator */
+.ws-connected {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.ws-disconnected {
+  color: #ff3333;
+}
+
+/* Terminal styles */
+.terminal {
+  font-family: 'Fira Code', monospace;
+  line-height: 1.5;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+}
+
+/* Button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--neon-cyan);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.btn-danger {
+  background: rgba(255, 0, 127, 0.15);
+  color: var(--neon-pink);
+  border: 1px solid var(--neon-pink);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 0, 127, 0.3);
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--neon-cyan);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+  }
+}
