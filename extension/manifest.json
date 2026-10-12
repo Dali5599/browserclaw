@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "BrowserClaw Recorder & Handoff",
+  "version": "1.0.0",
+  "description": "1-click browser interaction recording and remote session handoff to BrowserClaw backend.",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "cookies",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

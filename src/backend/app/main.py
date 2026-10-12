@@ -1,16 +1,16 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pathlib import Path
-import os
+from src.backend.routers import tasks, ws, sessions
+from src.backend.routers import extension
+from src.backend.database.db import init_db
+import logging
 
-from src.backend.routers.sessions import router as sessions_router
-from src.backend.routers.tasks import router as tasks_router
-from src.backend.routers.ws import router as ws_router
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="BrowserClaw API",
-    description="Autonomous AI Web Agent with Real-Time Playwright Control & React Dashboard",
+    description="Backend API for BrowserClaw autonomous browser agent & extension handoff",
     version="1.0.0"
 )
 
@@ -22,25 +22,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/health")
-async def health_check():
-    return {
-        "status": "healthy",
-        "service": "browserclaw",
-        "version": "1.0.0",
-        "engine": "playwright"
-    }
+app.include_router(tasks.router)
+app.include_router(ws.router)
+app.include_router(sessions.router)
+app.include_router(extension.router)
 
-# Include routers
-app.include_router(sessions_router)
-app.include_router(tasks_router)
-app.include_router(ws_router)
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Starting BrowserClaw backend...")
+    init_db()
 
-# Mount frontend build if available
-frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
-if frontend_dist.is_dir():
-    app.mount("/", StaticFiles(directory=str(frontend_dist), html=True), name="static")
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("src.backend.app.main:app", host="0.0.0.0", port=8000, reload=True)
+@app.get("/")
+async def root():
+    return {"status": "ok", "service": "BrowserClaw API"}

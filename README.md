@@ -201,7 +201,7 @@ The FastAPI backend exposes fully documented OpenAPI endpoints at `/docs`:
 - [x] 100% Quality Gate verified test suite
 - [x] Multi-tab concurrent session routing
 - [x] Local Vision-LLM (Qwen2.5-VL) bounding box detection
-- [ ] Chrome Extension for 1-click recording & remote session handoff
+- [x] Chrome Extension for 1-click recording & remote session handoff
 - [ ] Automatic Cloudflare Turnstile & hCaptcha resolution solver
 
 ---

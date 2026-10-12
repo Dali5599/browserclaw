@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 260px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+    h2 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .status {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .status.idle { background: #e5e7eb; color: #374151; }
+    .status.recording { background: #fee2e2; color: #991b1b; }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    #recordBtn {
+      background: #2563eb;
+      color: white;
+    }
+    #recordBtn.recording {
+      background: #dc2626;
+    }
+    #recordBtn:hover {
+      opacity: 0.9;
+    }
+    #handoffBtn {
+      background: #10b981;
+      color: white;
+    }
+    #handoffBtn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    #statusMsg {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #4b5563;
+      text-align: center;
+      min-height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>
+    BrowserClaw
+    <span id="statusBadge" class="status idle">Idle</span>
+  </h2>
+  <div class="controls">
+    <button id="recordBtn">Start Recording</button>
+    <button id="handoffBtn" disabled>Handoff Session</button>
+  </div>
+  <div id="statusMsg"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
