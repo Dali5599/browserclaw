@@ -1,42 +1,44 @@
-import uuid
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict, Any
+import uuid
+from src.backend.models.session import SessionCreate, TabCreate, SessionResponse, TabResponse
+from src.backend.services.browser import manager
 
-from src.backend.database.db import (
-    create_session_db,
-    list_sessions_db,
-    get_session_db,
-    delete_session_db
-)
+router = APIRouter(prefix="/sessions", tags=["sessions"])
 
-router = APIRouter(prefix="/api/sessions", tags=["sessions"])
+sessions_store = {} 
 
-@router.get("")
-async def list_sessions():
-    """Retrieve all active and archived automation sessions."""
-    return await list_sessions_db()
+@router.post("/", response_model=SessionResponse)
+async def create_session(payload: SessionCreate):
+    session_id = str(uuid.uuid4())
+    await manager.create_context(session_id)
+    sessions_store[session_id] = {"status": "active", "tabs": {}}
+    return SessionResponse(session_id=session_id, status="active", tabs={})
 
-@router.post("")
-async def create_session(data: Dict[str, Any]):
-    """Launch a new browser automation session with task tracking."""
-    session_id = f"sess_{uuid.uuid4().hex[:8]}"
-    task = data.get("task", "Autonomous web exploration")
-    url = data.get("url", "https://news.ycombinator.com")
-    session = await create_session_db(session_id, task, url)
-    return session
-
-@router.get("/{session_id}")
-async def get_session(session_id: str):
-    """Fetch live details, thought timeline, and action history for a session."""
-    session = await get_session_db(session_id)
-    if not session:
+@router.post("/{session_id}/tabs", response_model=TabResponse)
+async def create_tab(session_id: str, payload: TabCreate):
+    if session_id not in sessions_store:
         raise HTTPException(status_code=404, detail="Session not found")
-    return session
+    
+    tab_id = str(uuid.uuid4())
+    tab_session = await manager.create_tab(session_id, tab_id, payload.url)
+    sessions_store[session_id]["tabs"][tab_id] = {"url": payload.url, "status": "open"}
+    
+    return TabResponse(tab_id=tab_id, session_id=session_id, url=payload.url, status="open")
+
+@router.delete("/{session_id}/tabs/{tab_id}")
+async def close_tab(session_id: str, tab_id: str):
+    if session_id not in sessions_store or tab_id not in sessions_store[session_id]["tabs"]:
+        raise HTTPException(status_code=404, detail="Session or Tab not found")
+    
+    await manager.close_tab(tab_id)
+    del sessions_store[session_id]["tabs"][tab_id]
+    return {"status": "closed", "tab_id": tab_id}
 
 @router.delete("/{session_id}")
-async def delete_session(session_id: str):
-    """Terminate and purge an automation session."""
-    success = await delete_session_db(session_id)
-    if not success:
+async def close_session(session_id: str):
+    if session_id not in sessions_store:
         raise HTTPException(status_code=404, detail="Session not found")
-    return {"status": "deleted", "id": session_id}
+    
+    await manager.close_session(session_id)
+    del sessions_store[session_id]
+    return {"status": "closed", "session_id": session_id}

@@ -199,7 +199,7 @@ The FastAPI backend exposes fully documented OpenAPI endpoints at `/docs`:
 - [x] SQLite WAL database persistence with SQLAlchemy 2.0
 - [x] Multi-stage Docker containerization and CLI tool
 - [x] 100% Quality Gate verified test suite
-- [ ] Multi-tab concurrent session routing
+- [x] Multi-tab concurrent session routing
 - [ ] Local Vision-LLM (Qwen2.5-VL) bounding box detection
 - [ ] Chrome Extension for 1-click recording & remote session handoff
 - [ ] Automatic Cloudflare Turnstile & hCaptcha resolution solver
