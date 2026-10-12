@@ -1,8 +1,10 @@
 import pytest
+import asyncio
 from fastapi.testclient import TestClient
 from src.backend.app.main import app
-from src.backend.config import Settings
-from src.backend.services.browser import BrowserState, InteractiveElement
+from src.backend.config import settings
+from src.backend.services.browser import BrowserState, InteractiveElement, STEALTH_JS
+from src.backend.database.db import create_session_db, get_session_db, delete_session_db
 
 client = TestClient(app)
 
@@ -15,7 +17,6 @@ def test_health_endpoint():
     assert data["engine"] == "playwright"
 
 def test_session_lifecycle():
-    # 1. Create
     payload = {"task": "Verify hacker news headline", "url": "https://news.ycombinator.com"}
     create_res = client.post("/api/sessions", json=payload)
     assert create_res.status_code == 200
@@ -23,22 +24,18 @@ def test_session_lifecycle():
     assert "id" in session
     sess_id = session["id"]
 
-    # 2. List
     list_res = client.get("/api/sessions")
     assert list_res.status_code == 200
     sessions = list_res.json()
     assert any(s["id"] == sess_id for s in sessions)
 
-    # 3. Get
     get_res = client.get(f"/api/sessions/{sess_id}")
     assert get_res.status_code == 200
     assert get_res.json()["id"] == sess_id
 
-    # 4. Delete
     del_res = client.delete(f"/api/sessions/{sess_id}")
     assert del_res.status_code == 200
 
-    # 5. Get Not Found
     get_res_404 = client.get(f"/api/sessions/{sess_id}")
     assert get_res_404.status_code == 404
 
@@ -77,3 +74,30 @@ def test_browser_models():
     assert state.title == "Example Domain"
     assert len(state.elements) == 1
     assert state.viewport_size["width"] == 1280
+
+def test_stealth_injection_content():
+    assert "webdriver" in STEALTH_JS
+    assert "navigator" in STEALTH_JS
+
+def test_database_crud_direct():
+    async def _test():
+        test_id = "test_crud_123"
+        created = await create_session_db(test_id, "Test task execution", "https://example.com")
+        assert created["id"] == test_id
+        assert created["status"] == "running"
+
+        fetched = await get_session_db(test_id)
+        assert fetched is not None
+        assert fetched["task"] == "Test task execution"
+
+        deleted = await delete_session_db(test_id)
+        assert deleted is True
+
+        notFound = await get_session_db(test_id)
+        assert notFound is None
+    asyncio.run(_test())
+
+def test_config_defaults():
+    assert settings.PORT == 8000
+    assert settings.HEADLESS is True
+    assert "sqlite+aiosqlite" in settings.DATABASE_URL

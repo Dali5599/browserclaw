@@ -1,30 +1,34 @@
 import os
-from typing import Optional
+from pathlib import Path
+from typing import List
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 class Settings:
-    """Application configuration from environment variables."""
-    
-    # Server settings
+    """Production configuration for BrowserClaw."""
     HOST: str = os.getenv("HOST", "0.0.0.0")
     PORT: int = int(os.getenv("PORT", "8000"))
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
     
-    # Playwright settings
+    # Playwright Automation Engine
     HEADLESS: bool = os.getenv("HEADLESS", "true").lower() == "true"
     STEALTH_MODE: bool = os.getenv("STEALTH_MODE", "true").lower() == "true"
+    DEFAULT_VIEWPORT_WIDTH: int = int(os.getenv("VIEWPORT_WIDTH", "1280"))
+    DEFAULT_VIEWPORT_HEIGHT: int = int(os.getenv("VIEWPORT_HEIGHT", "800"))
+    USER_AGENT: str = os.getenv(
+        "USER_AGENT",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    )
     
-    # WebSocket settings
-    WS_HEARTBEAT_INTERVAL: int = int(os.getenv("WS_HEARTBEAT_INTERVAL", "30000"))
-    WS_MAX_MESSAGES: int = int(os.getenv("WS_MAX_MESSAGES", "1000"))
+    # SQLite Database with WAL mode
+    DATABASE_PATH: str = os.getenv("DATABASE_PATH", str(BASE_DIR / "browserclaw.db"))
+    DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite+aiosqlite:///{DATABASE_PATH}")
     
-    # Database settings
-    DATABASE_PATH: str = os.getenv("DATABASE_PATH", "/home/nexus/.openclaw/workspace/browserclaw/src/backend/database/browserclaw.db")
+    # WebSocket & Telemetry
+    WS_HEARTBEAT_INTERVAL: int = int(os.getenv("WS_HEARTBEAT_INTERVAL", "15000"))
     
-    # CORS settings
-    CORS_ORIGINS: list[str] = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
-    
-    # Security
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "browserclaw-secret-change-in-production")
-    SESSION_TIMEOUT: int = int(os.getenv("SESSION_TIMEOUT", "3600"))  # seconds
+    # Security & CORS
+    CORS_ORIGINS: List[str] = ["*"]
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "browserclaw-super-secret-key-2026")
 
 settings = Settings()

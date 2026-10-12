@@ -45,3 +45,5 @@ Thumbs.db
 
 # OpenClaw & Agent
 .openclaw/
+*.db
+*.sqlite*

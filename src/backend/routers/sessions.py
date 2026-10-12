@@ -1,38 +1,42 @@
+import uuid
 from fastapi import APIRouter, HTTPException
 from typing import List, Dict, Any
 
-router = APIRouter(prefix="/api/sessions", tags=["sessions"])
+from src.backend.database.db import (
+    create_session_db,
+    list_sessions_db,
+    get_session_db,
+    delete_session_db
+)
 
-# In-memory store fallback / reference
-sessions_store: Dict[str, Dict[str, Any]] = {}
+router = APIRouter(prefix="/api/sessions", tags=["sessions"])
 
 @router.get("")
 async def list_sessions():
-    return list(sessions_store.values())
+    """Retrieve all active and archived automation sessions."""
+    return await list_sessions_db()
 
 @router.post("")
 async def create_session(data: Dict[str, Any]):
-    sess_id = f"sess_{len(sessions_store) + 1}"
-    session = {
-        "id": sess_id,
-        "task": data.get("task", "Automated browser workflow"),
-        "status": "running",
-        "url": data.get("url", "https://news.ycombinator.com"),
-        "steps": [],
-        "created_at": "2026-10-12T10:00:00Z"
-    }
-    sessions_store[sess_id] = session
+    """Launch a new browser automation session with task tracking."""
+    session_id = f"sess_{uuid.uuid4().hex[:8]}"
+    task = data.get("task", "Autonomous web exploration")
+    url = data.get("url", "https://news.ycombinator.com")
+    session = await create_session_db(session_id, task, url)
     return session
 
 @router.get("/{session_id}")
 async def get_session(session_id: str):
-    if session_id not in sessions_store:
+    """Fetch live details, thought timeline, and action history for a session."""
+    session = await get_session_db(session_id)
+    if not session:
         raise HTTPException(status_code=404, detail="Session not found")
-    return sessions_store[session_id]
+    return session
 
 @router.delete("/{session_id}")
 async def delete_session(session_id: str):
-    if session_id not in sessions_store:
+    """Terminate and purge an automation session."""
+    success = await delete_session_db(session_id)
+    if not success:
         raise HTTPException(status_code=404, detail="Session not found")
-    del sessions_store[session_id]
     return {"status": "deleted", "id": session_id}
