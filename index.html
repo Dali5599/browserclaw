@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browserclaw — Autonomous AI Web Agent</title>
+    <title>BrowserClaw 🦈⭐ — Next-Gen Autonomous AI Web Agent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -12,285 +12,402 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            900: '#0a0b10',
-                            800: '#12141c',
-                            700: '#1a1d29',
-                            600: '#262a3b'
-                        },
-                        cyber: {
-                            cyan: '#00f2fe',
-                            indigo: '#4facfe',
-                            purple: '#8a2be2',
-                            neon: '#00c853'
-                        }
+                        darkBg: '#0a0b10',
+                        cardBg: '#12141c',
+                        accentCyan: '#00f2fe',
+                        accentIndigo: '#4facfe',
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0a0b10; color: #f3f4f6; overflow-x: hidden; }
-        .font-mono { font-family: 'Fira Code', monospace; }
-        .glass { background: rgba(18, 20, 28, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .glow-cyan { box-shadow: 0 0 30px -5px rgba(0, 242, 254, 0.3); }
-        .glow-purple { box-shadow: 0 0 30px -5px rgba(138, 43, 226, 0.3); }
-        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .animate-pulse-slow { animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0b10; }
-        ::-webkit-scrollbar-thumb { background: #262a3b; border-radius: 3px; }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 242, 254, 0.5); }
+        }
+        .glow-card { animation: pulseGlow 4s infinite; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0b10; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e2235; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #00f2fe; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+<body class="bg-darkBg text-gray-100 font-sans antialiased min-h-screen selection:bg-accentCyan selection:text-black">
 
-    <!-- BACKGROUND AMBIENT GLOW -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]"></div>
-        <div class="absolute top-1/3 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]"></div>
-    </div>
-
-    <!-- HEADER / NAVBAR -->
-    <header class="sticky top-0 z-50 glass border-b border-white/10 px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center glow-cyan">
-                <i class="fa-solid fa-spider text-black font-bold text-lg"></i>
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-darkBg/80 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-xl shadow-lg shadow-cyan-500/30">
+                    🦈
+                </div>
+                <span class="font-bold text-xl tracking-wider bg-gradient-to-r from-white via-cyan-200 to-accentCyan bg-clip-text text-transparent">
+                    BrowserClaw <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-accentCyan border border-cyan-500/30">v2.4-PRO</span>
+                </span>
             </div>
-            <div>
-                <span class="font-bold text-lg tracking-wider bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">BROWSERCLAW</span>
-                <span class="hidden sm:inline-block ml-2 text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">v2.4.0</span>
+            <div class="flex items-center space-x-4">
+                <a href="#simulator" class="hidden sm:inline-flex items-center space-x-2 text-sm text-gray-300 hover:text-cyan-400 transition">
+                    <i class="fa-solid fa-play"></i> <span>Live Simulator</span>
+                </a>
+                <a href="#install" class="hidden sm:inline-flex items-center space-x-2 text-sm text-gray-300 hover:text-cyan-400 transition">
+                    <i class="fa-solid fa-terminal"></i> <span>Quickstart</span>
+                </a>
+                <a href="https://github.com/Dali5599/browserclaw" target="_blank" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium flex items-center space-x-2 transition shadow-sm hover:border-cyan-500/50">
+                    <i class="fa-brands fa-github text-lg"></i>
+                    <span>Star on GitHub</span>
+                    <span class="bg-yellow-500/20 text-yellow-300 text-xs px-1.5 py-0.5 rounded font-mono">⭐ 1.4k</span>
+                </a>
             </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <a href="https://github.com/Dali5599/browserclaw" target="_blank" class="hidden sm:flex items-center space-x-2 text-sm px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
-                <i class="fa-brands fa-github text-yellow-400"></i>
-                <span id="star-count">1.4k</span> Stars
-            </a>
-            <a href="#demo" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-black font-semibold text-sm hover:opacity-90 transition glow-cyan">
-                Live Demo
-            </a>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-6">
-            <i class="fa-solid fa-sparkles"></i>
-            <span>Engineered autonomously by Requin AI Agent</span>
-        </div>
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
-            Autonomous AI Web Agent with <br class="hidden sm:inline">
-            <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">Real-Time Playwright Control</span>
-        </h1>
-        <p class="max-w-2xl mx-auto text-gray-400 text-base sm:text-lg mb-8">
-            Deploy self-healing browser agents instantly. Automate complex web workflows, extract structured data, and monitor executions via live React dashboards.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="#install" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white text-black font-semibold hover:bg-gray-200 transition flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-terminal"></i>
-                <span>Get Started</span>
-            </a>
-            <a href="#demo" class="w-full sm:w-auto px-6 py-3 rounded-xl glass hover:bg-white/10 transition flex items-center justify-center space-x-2 border border-white/10">
-                <i class="fa-solid fa-play text-cyan-400"></i>
-                <span>Test Interactive Sandbox</span>
-            </a>
-        </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
 
-        <!-- Badges Bar -->
-        <div class="flex flex-wrap items-center justify-center gap-3 mt-10">
-            <span class="px-3 py-1 rounded-md bg-dark-800 border border-white/10 text-xs text-gray-400"><i class="fa-solid fa-check text-green-400 mr-1.5"></i> MIT License</span>
-            <span class="px-3 py-1 rounded-md bg-dark-800 border border-white/10 text-xs text-gray-400"><i class="fa-solid fa-bolt text-yellow-400 mr-1.5"></i> Zero Config</span>
-            <span class="px-3 py-1 rounded-md bg-dark-800 border border-white/10 text-xs text-gray-400"><i class="fa-solid fa-shield text-cyan-400 mr-1.5"></i> Secure Sandbox</span>
-        </div>
-    </section>
-
-    <!-- LIVE INTERACTIVE SIMULATOR (SANDBOX) -->
-    <section id="demo" class="relative z-10 max-w-6xl mx-auto px-6 py-12 w-full">
-        <div class="mb-8 text-center sm:text-left">
-            <h2 class="text-2xl font-bold flex items-center justify-center sm:justify-start space-x-2">
-                <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
-                <span>Live Agent Control Panel</span>
-            </h2>
-            <p class="text-sm text-gray-400 mt-1">Simulate real-time browser agent tasks and monitor cluster resource utilization.</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Controls & Metrics -->
-            <div class="space-y-6">
-                <!-- Agent Controls -->
-                <div class="glass p-6 rounded-2xl border border-white/10 shadow-xl">
-                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4"><i class="fa-solid fa-sliders text-cyan-400 mr-2"></i> Agent Controls</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Target URL</label>
-                            <input type="text" id="target-url" value="https://news.ycombinator.com" class="w-full bg-dark-900 border border-white/10 rounded-xl px-3 py-2 text-sm text-cyan-300 font-mono focus:outline-none focus:border-cyan-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Task Prompt</label>
-                            <input type="text" id="task-prompt" value="Extract top 5 trending AI stories" class="w-full bg-dark-900 border border-white/10 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-cyan-500">
-                        </div>
-                        <button onclick="triggerAgentTask()" id="run-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-black font-bold text-sm hover:opacity-90 transition glow-cyan flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-play"></i>
-                            <span>Dispatch Agent</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Live Metrics -->
-                <div class="glass p-6 rounded-2xl border border-white/10 shadow-xl">
-                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4"><i class="fa-solid fa-chart-line text-purple-400 mr-2"></i> Cluster Telemetry</h3>
-                    <div class="space-y-4 text-sm">
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-gray-400">CPU Usage (Headless Nodes)</span>
-                                <span id="cpu-val" class="font-mono text-cyan-400">42%</span>
-                            </div>
-                            <div class="w-full bg-dark-900 h-2 rounded-full overflow-hidden">
-                                <div id="cpu-bar" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-full w-[42%] transition-all duration-500"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-gray-400">Active Playwright Sessions</span>
-                                <span id="sess-val" class="font-mono text-purple-400">8 / 16</span>
-                            </div>
-                            <div class="w-full bg-dark-900 h-2 rounded-full overflow-hidden">
-                                <div id="sess-bar" class="bg-gradient-to-r from-purple-500 to-indigo-500 h-full w-[50%] transition-all duration-500"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-gray-400">Memory Allocation</span>
-                                <span id="mem-val" class="font-mono text-green-400">1.8 GB</span>
-                            </div>
-                            <div class="w-full bg-dark-900 h-2 rounded-full overflow-hidden">
-                                <div id="mem-bar" class="bg-gradient-to-r from-green-500 to-cyan-500 h-full w-[60%] transition-all duration-500"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- HERO SECTION -->
+        <section class="text-center space-y-8 pt-6">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 text-accentCyan text-xs font-semibold tracking-wide uppercase">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>Next-Generation Autonomous AI Web Agent</span>
             </div>
-
-            <!-- Terminal Output / Logs -->
-            <div class="lg:col-span-2 glass rounded-2xl border border-white/10 flex flex-col h-[420px] shadow-xl overflow-hidden">
-                <div class="bg-dark-800 px-4 py-3 border-b border-white/10 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                        <span class="text-xs font-mono text-gray-400 ml-2">browserclaw-cluster-node-01</span>
-                    </div>
-                    <button onclick="clearTerminal()" class="text-xs text-gray-400 hover:text-white transition"><i class="fa-solid fa-trash mr-1"></i> Clear</button>
-                </div>
-                <div id="terminal-logs" class="p-4 font-mono text-xs overflow-y-auto flex-1 space-y-2 text-gray-300">
-                    <div class="text-cyan-400">[System] Browserclaw orchestrator initialized successfully.</div>
-                    <div class="text-gray-500">[Info] Ready to spin up headless Chromium instances on demand.</div>
-                </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight">
+                Supercharge Web Automation with <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">Cognitive AI</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-gray-400 text-base sm:text-lg">
+                Enterprise-grade autonomous web agent framework bridging cognitive language models with headless Playwright automation. SoM heuristics & anti-bot evasion built-in.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#simulator" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-black font-bold shadow-lg shadow-cyan-500/30 hover:opacity-90 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Launch Live Demo</span>
+                </a>
+                <a href="https://github.com/Dali5599/browserclaw" target="_blank" class="px-8 py-3.5 rounded-xl bg-cardBg hover:bg-white/5 border border-white/10 font-semibold transition flex items-center space-x-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Read Documentation</span>
+                </a>
             </div>
-        </div>
-    </section>
-
-    <!-- QUICK INSTALL SECTION -->
-    <section id="install" class="relative z-10 max-w-4xl mx-auto px-6 py-12 w-full">
-        <div class="glass p-8 rounded-2xl border border-white/10 shadow-xl text-center">
-            <h2 class="text-2xl font-bold mb-3">Instant Installation</h2>
-            <p class="text-sm text-gray-400 mb-6">Clone, install dependencies, and launch your first autonomous web agent instantly.</p>
             
-            <div class="relative max-w-xl mx-auto bg-dark-900 rounded-xl p-4 border border-white/10 flex items-center justify-between text-left">
-                <code id="install-cmd" class="font-mono text-sm text-cyan-300 overflow-x-auto">npx browserclaw@latest init --template react</code>
-                <button onclick="copyInstallCmd()" class="ml-4 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium transition flex items-center space-x-1.5 text-white shrink-0">
-                    <i class="fa-solid fa-copy" id="copy-icon"></i>
-                    <span id="copy-text">Copy</span>
-                </button>
+            <!-- Badges Bar -->
+            <div class="flex flex-wrap justify-center gap-2 pt-4">
+                <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white" alt="Python">
+                <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+                <img src="https://img.shields.io/badge/Playwright-1.40%2B-2EAD33?style=flat-square&logo=playwright&logoColor=white" alt="Playwright">
+                <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React">
+                <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License">
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- LIVE INTERACTIVE SIMULATOR (Playwright Dashboard & Terminal Agent) -->
+        <section id="simulator" class="space-y-6">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-cardBg p-6 rounded-2xl border border-white/10 glow-card">
+                <div>
+                    <h2 class="text-2xl font-bold flex items-center space-x-3">
+                        <i class="fa-solid fa-desktop text-accentCyan"></i>
+                        <span>BrowserClaw Real-Time Execution Deck</span>
+                    </h2>
+                    <p class="text-sm text-gray-400 mt-1">Simulate autonomous agent workflows, view live viewport DOM telemetry, and trigger cognitive tasks.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="btnToggleAgent" onclick="toggleAgent()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-black font-bold text-sm shadow-lg shadow-green-500/20 hover:opacity-90 transition flex items-center space-x-2">
+                        <i id="agentIcon" class="fa-solid fa-play"></i>
+                        <span id="agentBtnText">Start Mission</span>
+                    </button>
+                    <button onclick="triggerWebhookAlert()" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold transition flex items-center space-x-2 text-yellow-400">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Test Webhook</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Metrics & Gauges (Col 1) -->
+                <div class="space-y-6">
+                    <!-- Telemetry Cards -->
+                    <div class="bg-cardBg p-5 rounded-2xl border border-white/10 space-y-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 flex items-center justify-between">
+                            <span>Agent Telemetry</span>
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" id="statusDot"></span>
+                        </h3>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">DOM Perception Latency</span>
+                                    <span id="metricLatency" class="font-mono text-cyan-400">42 ms</span>
+                                </div>
+                                <div class="w-full bg-darkBg rounded-full h-2 overflow-hidden border border-white/5">
+                                    <div id="barLatency" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-full w-[42%] transition-all duration-300"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">LLM Reasoning Tokens / sec</span>
+                                    <span id="metricTokens" class="font-mono text-purple-400">84.2 tok/s</span>
+                                </div>
+                                <div class="w-full bg-darkBg rounded-full h-2 overflow-hidden border border-white/5">
+                                    <div id="barTokens" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-[75%] transition-all duration-300"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">Playwright Memory Footprint</span>
+                                    <span id="metricMemory" class="font-mono text-emerald-400">312 MB</span>
+                                </div>
+                                <div class="w-full bg-darkBg rounded-full h-2 overflow-hidden border border-white/5">
+                                    <div id="barMemory" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full w-[38%] transition-all duration-300"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Parameters Form -->
+                    <div class="bg-cardBg p-5 rounded-2xl border border-white/10 space-y-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Mission Target URL</h3>
+                        <div class="space-y-3">
+                            <input type="text" id="targetUrl" value="https://news.ycombinator.com/jobs" class="w-full bg-darkBg border border-white/10 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-cyan-500 font-mono">
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span>Heuristics: Set-of-Marks (SoM)</span>
+                                <span class="text-cyan-400 font-semibold">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Viewport Mock (Col 2) -->
+                <div class="bg-cardBg rounded-2xl border border-white/10 overflow-hidden flex flex-col">
+                    <div class="bg-[#181b26] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
+                        <div class="bg-darkBg px-3 py-1 rounded-lg text-xs font-mono text-gray-400 border border-white/5 truncate max-w-[200px]" id="browserAddress">
+                            https://news.ycombinator.com
+                        </div>
+                        <i class="fa-solid fa-rotate-right text-xs text-gray-400 cursor-pointer hover:text-cyan-400 transition" onclick="refreshViewport()"></i>
+                    </div>
+                    <!-- Viewport Screen Simulation -->
+                    <div id="viewportScreen" class="flex-1 bg-darkBg p-6 relative overflow-hidden flex flex-col justify-between min-h-[280px]">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1e2235_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                        
+                        <div class="relative z-10 space-y-3">
+                            <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                                <span class="font-bold text-sm text-cyan-400">Y Combinator Hacker News</span>
+                                <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono">DOM v4.2</span>
+                            </div>
+                            <div class="space-y-2 text-xs text-gray-300 font-mono">
+                                <div class="p-2 bg-white/5 rounded border border-white/5 flex items-center justify-between">
+                                    <span>[SoM #1] Senior AI Engineer @ OpenAI</span>
+                                    <span class="text-xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Clickable</span>
+                                </div>
+                                <div class="p-2 bg-white/5 rounded border border-white/5 flex items-center justify-between">
+                                    <span>[SoM #2] Lead Rust Developer @ Anthropic</span>
+                                    <span class="text-xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Clickable</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative z-10 flex items-center justify-between pt-4 border-t border-white/10 text-xs">
+                            <span class="text-gray-400">Status: <span id="viewportStatus" class="text-emerald-400">Idle (Ready)</span></span>
+                            <span class="text-purple-400 font-mono">Model: GPT-4o-Mini</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Streaming Logs (Col 3) -->
+                <div class="bg-cardBg rounded-2xl border border-white/10 overflow-hidden flex flex-col">
+                    <div class="bg-[#181b26] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                        <span class="text-sm font-semibold flex items-center space-x-2">
+                            <i class="fa-solid fa-terminal text-accentCyan"></i>
+                            <span>Agent Thought Terminal</span>
+                        </span>
+                        <button onclick="clearTerminal()" class="text-xs text-gray-400 hover:text-white transition">Clear</button>
+                    </div>
+                    <div id="terminalLogs" class="flex-1 bg-darkBg p-4 font-mono text-xs text-gray-300 overflow-y-auto max-h-[280px] custom-scrollbar space-y-1.5">
+                        <div><span class="text-gray-500">[12:00:01]</span> <span class="text-cyan-400">SYSTEM:</span> BrowserClaw core initialized.</div>
+                        <div><span class="text-gray-500">[12:00:02]</span> <span class="text-purple-400">FASTAPI:</span> WebSocket connection established at 60 FPS.</div>
+                        <div><span class="text-gray-500">[12:00:03]</span> <span class="text-emerald-400">PLAYWRIGHT:</span> Launching headless Chromium instance...</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- QUICKSTART INSTALLATION -->
+        <section id="install" class="space-y-6">
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl font-bold">Quick Start in 30 Seconds</h2>
+                <p class="text-gray-400 text-sm">Clone the repository and run your first autonomous agent mission locally.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-cardBg rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+                <div class="bg-[#181b26] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                    <span class="text-xs font-mono text-gray-400 flex items-center space-x-2">
+                        <i class="fa-solid fa-code text-cyan-400"></i>
+                        <span>bash / zsh</span>
+                    </span>
+                    <button onclick="copyCode()" class="px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-gray-300 transition flex items-center space-x-1.5">
+                        <i id="copyIcon" class="fa-solid fa-copy"></i>
+                        <span id="copyText">Copy code</span>
+                    </button>
+                </div>
+                <pre class="p-6 font-mono text-sm text-gray-200 overflow-x-auto custom-scrollbar leading-relaxed"><code id="codeSnippet"># 1. Clone the repository
+git clone https://github.com/Dali5599/browserclaw.git
+cd browserclaw
+
+# 2. Install dependencies via Poetry / Pip
+pip install -r requirements.txt
+playwright install chromium
+
+# 3. Launch the FastAPI & React Dashboard
+python main.py --port 8000</code></pre>
+            </div>
+        </section>
+
+    </main>
 
     <!-- FOOTER -->
-    <footer class="relative z-10 glass border-t border-white/10 py-6 text-center text-xs text-gray-500 mt-12">
-        <p>Développé avec fierté par Requin AI Agent & Dali (@Dali5599)</p>
+    <footer class="border-t border-white/10 bg-darkBg py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+            <div class="flex items-center space-x-2">
+                <span>Développé avec fierté par</span>
+                <span class="font-bold text-gray-200">Requin AI Agent & Dali (@Dali5599)</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="https://github.com/Dali5599/browserclaw" target="_blank" class="hover:text-cyan-400 transition">GitHub</a>
+                <a href="https://github.com/Dali5599/browserclaw/blob/main/LICENSE" target="_blank" class="hover:text-cyan-400 transition">MIT License</a>
+                <a href="#simulator" class="hover:text-cyan-400 transition">Live Demo</a>
+            </div>
+        </div>
     </footer>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 glass px-4 py-3 rounded-xl border border-cyan-500/30 shadow-2xl flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
-            <i class="fa-solid fa-check"></i>
-        </div>
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-cardBg border border-cyan-500/50 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
         <div>
-            <div class="text-xs font-bold text-white" id="toast-title">Action Successful</div>
-            <div class="text-[10px] text-gray-400" id="toast-desc">Command dispatched to cluster.</div>
+            <div id="toastTitle" class="text-sm font-bold">Action réussie</div>
+            <div id="toastMsg" class="text-xs text-gray-400">Opération effectuée avec succès.</div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- SCRIPT INTERACTIF -->
     <script>
-        // Simulate live metrics oscillation
-        setInterval(() => {
-            const cpu = Math.floor(35 + Math.random() * 30);
-            const sess = Math.floor(6 + Math.random() * 6);
-            const mem = (1.5 + Math.random() * 0.8).toFixed(1);
+        let agentRunning = false;
+        let logInterval = null;
 
-            document.getElementById('cpu-val').innerText = cpu + '%';
-            document.getElementById('cpu-bar').style.width = cpu + '%';
-            
-            document.getElementById('sess-val').innerText = sess + ' / 16';
-            document.getElementById('sess-bar').style.width = (sess / 16 * 100) + '%';
-
-            document.getElementById('mem-val').innerText = mem + ' GB';
-            document.getElementById('mem-bar').style.width = (mem / 3 * 100) + '%';
-        }, 3000);
-
-        // Terminal logging simulator
-        function appendLog(text, colorClass = 'text-gray-300') {
-            const term = document.getElementById('terminal-logs');
-            const div = document.createElement('div');
-            div.className = colorClass;
-            div.innerText = `[${new Date().toLocaleTimeString()}] ${text}`;
-            term.appendChild(div);
-            term.scrollTop = term.scrollHeight;
-        }
-
-        function triggerAgentTask() {
-            const url = document.getElementById('target-url').value;
-            const prompt = document.getElementById('task-prompt').value;
-            
-            appendLog(`Initializing Playwright session for target: ${url}`, 'text-yellow-400');
-            setTimeout(() => appendLog(`Executing AI Prompt: "${prompt}"`, 'text-cyan-400'), 600);
-            setTimeout(() => appendLog(`DOM parsed successfully. Extracting structured JSON nodes...`, 'text-gray-300'), 1400);
-            setTimeout(() => {
-                appendLog(`Task completed successfully. 5 items extracted.`, 'text-green-400');
-                showToast('Agent Task Completed', 'Successfully scraped target URL.');
-            }, 2200);
-        }
-
-        function clearTerminal() {
-            document.getElementById('terminal-logs').innerHTML = '<div class="text-cyan-400">[System] Terminal cleared.</div>';
-        }
-
-        // Copy install command
-        function copyInstallCmd() {
-            const cmd = document.getElementById('install-cmd').innerText;
-            navigator.clipboard.writeText(cmd);
-            document.getElementById('copy-icon').className = 'fa-solid fa-check text-green-400';
-            document.getElementById('copy-text').innerText = 'Copied!';
-            showToast('Copied to Clipboard', cmd);
-            setTimeout(() => {
-                document.getElementById('copy-icon').className = 'fa-solid fa-copy';
-                document.getElementById('copy-text').innerText = 'Copy';
-            }, 2000);
-        }
-
-        // Toast Handler
-        function showToast(title, desc) {
+        function showToast(title, msg) {
             const toast = document.getElementById('toast');
-            document.getElementById('toast-title').innerText = title;
-            document.getElementById('toast-desc').innerText = desc;
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMsg').innerText = msg;
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3500);
         }
+
+        function copyCode() {
+            const code = document.getElementById('codeSnippet').innerText;
+            navigator.clipboard.writeText(code);
+            document.getElementById('copyIcon').className = "fa-solid fa-check text-emerald-400";
+            document.getElementById('copyText').innerText = "Copié !";
+            showToast("Presse-papier", "Le code d'installation a été copié avec succès.");
+            setTimeout(() => {
+                document.getElementById('copyIcon').className = "fa-solid fa-copy";
+                document.getElementById('copyText').innerText = "Copy code";
+            }, 2000);
+        }
+
+        function toggleAgent() {
+            agentRunning = !agentRunning;
+            const btnText = document.getElementById('agentBtnText');
+            const agentIcon = document.getElementById('agentIcon');
+            const statusDot = document.getElementById('statusDot');
+            const viewportStatus = document.getElementById('viewportStatus');
+            const terminal = document.getElementById('terminalLogs');
+
+            if (agentRunning) {
+                btnText.innerText = "Stop Mission";
+                agentIcon.className = "fa-solid fa-stop";
+                statusDot.className = "w-2 h-2 rounded-full bg-cyan-400 animate-ping";
+                viewportStatus.innerText = "Executing (Cognitive Loop)...";
+                viewportStatus.className = "text-cyan-400 font-semibold";
+                showToast("Mission lancée", "L'agent autonome BrowserClaw analyse le DOM.");
+                
+                logInterval = setInterval(() => {
+                    const time = new Date().toTimeString().split(' ')[0];
+                    const actions = [
+                        "Parsing DOM tree elements via Set-of-Marks...",
+                        "LLM evaluating next optimal interaction step...",
+                        "Simulating human-like pointer movement...",
+                        "Bypassing Cloudflare fingerprint challenge...",
+                        "Extracted structured JSON payload successfully."
+                    ];
+                    const randomAction = actions[Math.floor(Math.random() * actions.length)];
+                    terminal.innerHTML += `<div><span class="text-gray-500">[${time}]</span> <span class="text-cyan-300">AGENT:</span> ${randomAction}</div>`;
+                    terminal.scrollTop = terminal.scrollHeight;
+                }, 1800);
+            } else {
+                btnText.innerText = "Start Mission";
+                agentIcon.className = "fa-solid fa-play";
+                statusDot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+                viewportStatus.innerText = "Idle (Ready)";
+                viewportStatus.className = "text-emerald-400";
+                clearInterval(logInterval);
+                showToast("Mission arrêtée", "L'agent a été mis en pause.");
+            }
+        }
+
+        function triggerWebhookAlert() {
+            // Web Audio API Beep
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 587.33; // D5 note
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } catch(e) {}
+
+            showToast("Webhook simulé", "Notification Webhook envoyée avec succès (Code 200 OK).");
+            const terminal = document.getElementById('terminalLogs');
+            const time = new Date().toTimeString().split(' ')[0];
+            terminal.innerHTML += `<div><span class="text-gray-500">[${time}]</span> <span class="text-yellow-400">WEBHOOK:</span> Event triggered successfully. Payload dispatched.</div>`;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function refreshViewport() {
+            showToast("Actualisation", "Rafraîchissement du flux Playwright en direct.");
+            const address = document.getElementById('targetUrl').value;
+            document.getElementById('browserAddress').innerText = address;
+        }
+
+        function clearTerminal() {
+            document.getElementById('terminalLogs').innerHTML = `<div><span class="text-gray-500">[${new Date().toTimeString().split(' ')[0]}]</span> <span class="text-gray-400">SYSTEM:</span> Terminal cleared.</div>`;
+        }
+
+        // Live telemetry fluctuation
+        setInterval(() => {
+            if (agentRunning) {
+                const latency = Math.floor(Math.random() * 20) + 35;
+                const tokens = (Math.random() * 15 + 75).toFixed(1);
+                const memory = Math.floor(Math.random() * 30) + 300;
+
+                document.getElementById('metricLatency').innerText = latency + ' ms';
+                document.getElementById('barLatency').style.width = latency + '%';
+                
+                document.getElementById('metricTokens').innerText = tokens + ' tok/s';
+                document.getElementById('barTokens').style.width = Math.min(tokens, 100) + '%';
+                
+                document.getElementById('metricMemory').innerText = memory + ' MB';
+                document.getElementById('barMemory').style.width = (memory / 5) + '%';
+            }
+        }, 2000);
     </script>
 </body>
 </html>
